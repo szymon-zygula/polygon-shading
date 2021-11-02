@@ -1,0 +1,44 @@
+﻿<Window x:Class="polygon_editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:polygon_editor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="85*" />
+            <ColumnDefinition Width="15*" />
+        </Grid.ColumnDefinitions>
+        <Image
+            Name="Canvas"
+            MouseMove="CanvasImage_MouseMove"
+            MouseLeftButtonUp="CanvasImage_MouseLeftButtonUp"
+            MouseLeftButtonDown="CanvasImage_MouseLeftButtonDown"
+            MouseRightButtonUp="CanvasImage_MouseRightButtonUp"
+            MouseDown="CanvasImage_MouseDown" Margin="10"
+            Width="1060px"
+            Height="670px"
+        />
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="170px" />
+            </Grid.RowDefinitions>
+            <Button
+                Grid.Row="0"
+                Margin="5px"
+                Name="ButtonDrawPolygon"
+                Content="Draw polygon"
+                Click="ButtonDrawPolygon_Click"
+            />
+            <ListView
+                Name="ShapeList"
+                Grid.Row="1"
+                Margin="5px"
+                SelectionChanged="ShapeList_SelectionChanged"
+            />
+        </Grid>
+    </Grid>
+</Window>
