@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace polygon_editor{
     class ActivePolygonControlState : CanvasControlState {
         readonly Polygon ActivePolygon;
-        public ActivePolygonControlState(CanvasState state, Polygon polygon) : base(state) {
+        readonly MainWindow MainWindow;
+
+        public ActivePolygonControlState(CanvasState state, Polygon polygon, MainWindow mainWindow) : base(state) {
             ActivePolygon = polygon;
+            MainWindow = mainWindow;
         }
 
         public override void EnterState() {
-            ActivePolygon.Color = CanvasOptions.ACTIVE_LINE_COLOR;
+            MainWindow.ButtonColorPolygon.IsEnabled = true;
+            MainWindow.ButtonColorPolygon.Click += ButtonColorPolygon_Click;
+            MainWindow.ButtonColorVertex.IsEnabled = true;
+            MainWindow.ButtonColorVertex.Click += ButtonColorVertex_Click;
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
@@ -25,7 +33,7 @@ namespace polygon_editor{
             bool isWithinXRadius = Math.Abs(center.Item1 - mouseX) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
             bool isWithinYRadius = Math.Abs(center.Item2 - mouseY) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
             if (!isWithinXRadius || !isWithinYRadius) return false;
-            State.SetControlState(new MovingPolygonControlState(State, ActivePolygon));
+            State.SetControlState(new MovingPolygonControlState(State, ActivePolygon, MainWindow));
             return true;
         }
 
@@ -33,7 +41,7 @@ namespace polygon_editor{
             int? activeEdge = ActivePolygon.FindEdgeWithinSquareRadius(
                 mouseX, mouseY, CanvasOptions.ACTIVE_EDGE_RADIUS);
             if (activeEdge == null) return false;
-            State.SetControlState(new MovingEdgeControlState(State, ActivePolygon, activeEdge.Value));
+            State.SetControlState(new MovingEdgeControlState(State, ActivePolygon, activeEdge.Value, MainWindow));
             return true;
         }
 
@@ -41,7 +49,7 @@ namespace polygon_editor{
             int? activeVertex = ActivePolygon.FindVertexWithinRadius(
                 mouseX, mouseY, CanvasOptions.ACTIVE_VERTEX_RADIUS);
             if (activeVertex == null) return false;
-            State.SetControlState(new MovingVertexControlState(State, ActivePolygon, activeVertex.Value));
+            State.SetControlState(new MovingVertexControlState(State, ActivePolygon, activeVertex.Value, MainWindow));
             return true;
         }
 
@@ -89,7 +97,6 @@ namespace polygon_editor{
 
         public override void DrawStateFeatures() {
             State.Plane.MarkPolygonVertices(
-                CanvasOptions.ACTIVE_VERTEX_COLOR,
                 CanvasOptions.ACTIVE_VERTEX_RADIUS,
                 ActivePolygon
             );
@@ -108,7 +115,22 @@ namespace polygon_editor{
         }
 
         public override void ExitState() {
-            ActivePolygon.Color = CanvasOptions.NORMAL_LINE_COLOR;
+            MainWindow.ButtonColorPolygon.IsEnabled = false;
+            MainWindow.ButtonColorPolygon.Click -= ButtonColorPolygon_Click;
+            MainWindow.ButtonColorVertex.IsEnabled = false;
+            MainWindow.ButtonColorVertex.Click -= ButtonColorVertex_Click;
+        }
+
+        private void ButtonColorVertex_Click(object sender, RoutedEventArgs e) {
+            State.SetControlState(new ColoringVertexControlState(State, ActivePolygon, MainWindow));
+        }
+
+        private void ButtonColorPolygon_Click(object sender, RoutedEventArgs e) {
+            UInt32? newColor = InterfaceUtils.GetColorFromDialog();
+            if(newColor.HasValue) {
+                ActivePolygon.Color = newColor.Value;
+                State.UpdateCanvas();
+            }
         }
     }
 }

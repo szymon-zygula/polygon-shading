@@ -41,7 +41,7 @@ namespace polygon_editor {
         private void ShapeList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (ShapeList.SelectedItem is Polygon) {
                 Polygon polygon = ShapeList.SelectedItem as Polygon;
-                State.SetControlState(new ActivePolygonControlState(State, polygon));
+                State.SetControlState(new ActivePolygonControlState(State, polygon, this));
                 State.UpdateCanvas();
             }
             else {

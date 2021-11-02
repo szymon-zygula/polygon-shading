@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace polygon_editor {
     class DrawingPolygonControlState : CanvasControlState {
-        Polygon DrawnPolygon;
+        readonly Polygon DrawnPolygon;
+
         public DrawingPolygonControlState(CanvasState state) : base(state) {
             DrawnPolygon = new Polygon {
-                Color = CanvasOptions.ACTIVE_LINE_COLOR
+                Color = CanvasOptions.DRAWN_POLYGON_COLOR
             };
         }
 
@@ -52,7 +46,7 @@ namespace polygon_editor {
             State.Canvas.Cursor = CanvasOptions.NORMAL_CURSOR;
 
             if (DrawnPolygon.Points.Length >= 4) {
-                DrawnPolygon.Color = CanvasOptions.NORMAL_LINE_COLOR;
+                DrawnPolygon.Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
                 DrawnPolygon.RemoveLastPoint();
                 State.AddPolygon(DrawnPolygon);
             }

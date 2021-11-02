@@ -25,6 +25,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="170px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
             </Grid.RowDefinitions>
             <Button
                 Grid.Row="0"
@@ -38,6 +40,20 @@
                 Grid.Row="1"
                 Margin="5px"
                 SelectionChanged="ShapeList_SelectionChanged"
+            />
+            <Button
+                Grid.Row="2"
+                Margin="5px"
+                Name="ButtonColorVertex"
+                Content="Set vertex color"
+                IsEnabled="False"
+            />
+            <Button
+                Grid.Row="3"
+                Margin="5px"
+                Name="ButtonColorPolygon"
+                Content="Set polygon color"
+                IsEnabled="False"
             />
         </Grid>
     </Grid>

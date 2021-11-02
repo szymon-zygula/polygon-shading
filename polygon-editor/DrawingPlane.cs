@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -10,7 +6,7 @@ namespace polygon_editor {
     public class DrawingPlane {
         public int Width { get; }
         public int Height { get; }
-        private UInt32[] Pixels;
+        private readonly UInt32[] Pixels;
 
         public DrawingPlane(int width, int height) {
             Width = width;
@@ -60,14 +56,14 @@ namespace polygon_editor {
             Draw(square);
         }
 
-        public void MarkPolygonVertices(UInt32 color, int r, Polygon polygon) {
-            foreach ((int, int) point in polygon.Points) {
+        public void MarkPolygonVertices(int r, Polygon polygon) {
+            for(int i = 0; i < polygon.Points.Length; ++i) {
                 BresenhamDrawer.Circle(
                     this,
-                    color,
+                    polygon.VertexColors[i],
                     r,
-                    point.Item1,
-                    point.Item2
+                    polygon.Points[i].Item1,
+                    polygon.Points[i].Item2
                 );
             }
         }
@@ -76,21 +72,6 @@ namespace polygon_editor {
             (int, int) center = polygon.GetCenter();
             Polygon square = CreateSquare(color, center.Item1, center.Item2, r);
             Draw(square);
-        }
-
-        public void MarkCircleCenter(UInt32 color, int r, Circle circle) {
-            Polygon square = CreateSquare(color, circle.X, circle.Y, r);
-            Draw(square);
-        }
-
-        public void MarkCircleTop(UInt32 color, int r, Circle circle) {
-            BresenhamDrawer.Circle(
-                this,
-                color,
-                r,
-                circle.X,
-                circle.Y - circle.R
-            );
         }
 
         public BitmapSource CreateBitmapSource() {

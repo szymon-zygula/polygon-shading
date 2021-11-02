@@ -2,16 +2,14 @@
 
 namespace polygon_editor {
     class MovingEdgeControlState : CanvasControlState {
-        Polygon ActivePolygon;
-        int EdgeIdx;
+        readonly Polygon ActivePolygon;
+        readonly int EdgeIdx;
+        readonly MainWindow MainWindow;
 
-        public MovingEdgeControlState(CanvasState state, Polygon polygon, int edgeIdx) : base(state) {
+        public MovingEdgeControlState(CanvasState state, Polygon polygon, int edgeIdx, MainWindow mainWindow) : base(state) {
             ActivePolygon = polygon;
             EdgeIdx = edgeIdx;
-        }
-
-        public override void EnterState() {
-            ActivePolygon.Color = CanvasOptions.CHANGING_LINE_COLOR;
+            MainWindow = mainWindow;
         }
 
         public override void OnMouseMove(MouseEventArgs e) {
@@ -30,11 +28,7 @@ namespace polygon_editor {
         }
 
         public override void OnMouseLeftButtonUp(MouseButtonEventArgs e) {
-            State.SetControlState(new ActivePolygonControlState(State, ActivePolygon));
-        }
-
-        public override void ExitState() {
-            ActivePolygon.Color = CanvasOptions.NORMAL_LINE_COLOR;
+            State.SetControlState(new ActivePolygonControlState(State, ActivePolygon, MainWindow));
         }
     }
 }

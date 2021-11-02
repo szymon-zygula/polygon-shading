@@ -5,9 +5,12 @@ namespace polygon_editor {
     public class Polygon : Shape {
         public (int, int)[] Points { get; set; }
         public UInt32 Color { get; set; }
+        public UInt32[] VertexColors { get; set; }
 
         public Polygon() {
             Points = new (int, int)[0];
+            VertexColors = new UInt32[0];
+            Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
         }
 
         public (int, int) EdgeMidpoint(int n) {
@@ -21,26 +24,13 @@ namespace polygon_editor {
         }
 
         public void InsertPointAt(int x, int y, int n) {
-            Points = InsertElemAt((x, y), Points, n);
-        }
-
-        private T[] InsertElemAt<T>(T elem, T[] array, int n) {
-            T[] newElems = new T[array.Length + 1];
-            Array.Copy(array, newElems, n);
-            Array.Copy(array, n, newElems, n + 1, array.Length - n);
-            newElems[n] = elem;
-            return newElems;
+            Points = ArrayUtils.InsertElemAt((x, y), Points, n);
+            VertexColors = ArrayUtils.InsertElemAt(CanvasOptions.DEFAULT_VERTEX_COLOR, VertexColors, n);
         }
 
         public void RemoveNthPoint(int n) {
-            Points = RemoveNthElem(n, Points);
-        }
-
-        private T[] RemoveNthElem<T>(int n, T[] array) {
-            T[] newElems = new T[array.Length - 1];
-            Array.Copy(array, newElems, n);
-            Array.Copy(array, n + 1, newElems, n, array.Length - n - 1);
-            return newElems;
+            Points = ArrayUtils.RemoveNthElem(n, Points);
+            VertexColors = ArrayUtils.RemoveNthElem(n, VertexColors);
         }
 
         public void RemoveLastPoint() {
@@ -125,14 +115,6 @@ namespace polygon_editor {
                 Points[edge2].Item1 - Points[edge1].Item1,
                 Points[edge2].Item2 - Points[edge1].Item2
             );
-        }
-
-        public void MoveVertexToEdgeLength(int vrtx, int edge, int len) {
-            int rootVrtx = edge == vrtx ? (edge + 1) % Points.Length : edge;
-            var edgeVec = EdgeVector(rootVrtx, vrtx);
-            double edgeVecLen = MathUtils.VectorLength(edgeVec);
-            var transVec = MathUtils.MulVector(edgeVec, (double)len / edgeVecLen);
-            MathUtils.MovePoint(ref Points[vrtx], Points[rootVrtx], transVec);
         }
     }
 }

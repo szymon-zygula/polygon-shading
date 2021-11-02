@@ -2,20 +2,18 @@
 
 namespace polygon_editor {
     class MovingVertexControlState : CanvasControlState {
-        Polygon ActivePolygon;
-        int VertexIdx;
+        readonly Polygon ActivePolygon;
+        readonly int VertexIdx;
+        readonly MainWindow MainWindow;
 
-        public MovingVertexControlState(CanvasState state, Polygon polygon, int vertexIdx) : base(state) {
+        public MovingVertexControlState(CanvasState state, Polygon polygon, int vertexIdx, MainWindow mainWindow) : base(state) {
             ActivePolygon = polygon;
             VertexIdx = vertexIdx;
-        }
-
-        public override void EnterState() {
-            ActivePolygon.Color = CanvasOptions.CHANGING_LINE_COLOR;
+            MainWindow = mainWindow;
         }
 
         public override void OnMouseLeftButtonUp(MouseButtonEventArgs e) {
-            State.SetControlState(new ActivePolygonControlState(State, ActivePolygon));
+            State.SetControlState(new ActivePolygonControlState(State, ActivePolygon, MainWindow));
         }
 
         public override void OnMouseMove(MouseEventArgs e) {
@@ -23,10 +21,6 @@ namespace polygon_editor {
                 (int)e.GetPosition(State.Canvas).X,
                 (int)e.GetPosition(State.Canvas).Y);
             State.UpdateCanvas();
-        }
-
-        public override void ExitState() {
-            ActivePolygon.Color = CanvasOptions.NORMAL_LINE_COLOR;
         }
     }
 }
