@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -47,6 +48,21 @@ namespace polygon_editor {
             else {
                 ShapeList.SelectedItem = null;
             }
+        }
+
+        private void ButtonLightColor_Click(object sender, RoutedEventArgs e) {
+            UInt32? color = InterfaceUtils.GetColorFromDialog();
+            if(color.HasValue) {
+                State.LightColor = color.Value;
+            }
+        }
+
+        private void SliderLightHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            State.LightPosition.Z = SliderLightHeight.Value;
+        }
+
+        private void ButtonLightPosition_Click(object sender, RoutedEventArgs e) {
+
         }
     }
 }

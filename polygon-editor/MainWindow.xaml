@@ -27,6 +27,10 @@
                 <RowDefinition Height="170px" />
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
             </Grid.RowDefinitions>
             <Button
                 Grid.Row="0"
@@ -54,6 +58,35 @@
                 Name="ButtonColorPolygon"
                 Content="Set polygon color"
                 IsEnabled="False"
+            />
+            <Button
+                Grid.Row="4"
+                Margin="5px"
+                Name="ButtonLightPosition"
+                Content="Set light position"
+                Click="ButtonLightPosition_Click"
+            />
+            <Button
+                Grid.Row="5"
+                Margin="5px"
+                Name="ButtonLightColor"
+                Content="Set light color"
+                Click="ButtonLightColor_Click"
+            />
+            <Label
+                Grid.Row="6"
+                Name="LabelLightHeight"
+                Margin="5px 2px 5px 2px"
+                Content="Light height"
+            />
+            <Slider
+                Grid.Row="7"
+                Name="SliderLightHeight"
+                Margin="5px"
+                ValueChanged="SliderLightHeight_ValueChanged"
+                Minimum="1"
+                Value="50"
+                Maximum="100"
             />
         </Grid>
     </Grid>

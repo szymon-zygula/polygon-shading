@@ -15,6 +15,9 @@ namespace polygon_editor {
 
         public CanvasControlState ControlState { get; private set; }
 
+        public Vec3 LightPosition;
+        public UInt32 LightColor { get; set; }
+
         public CanvasState(Image canvas, ListView shapeList) {
             Canvas = canvas;
             ShapeList = shapeList;
