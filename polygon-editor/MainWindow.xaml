@@ -27,6 +27,7 @@
                 <RowDefinition Height="170px" />
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
+                <RowDefinition Height="32px" />
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
@@ -59,28 +60,44 @@
                 Content="Set polygon color"
                 IsEnabled="False"
             />
-            <Button
+            <ComboBox
                 Grid.Row="4"
+                Name="ComboBoxPolygonFill"
+                Margin="5px"
+                IsEditable="False"
+            >
+                <ComboBoxItem Name="CBISolidColor">
+                    Solid color
+                </ComboBoxItem>
+                <ComboBoxItem Name="CBIVertexInterpolation">
+                    Vertex interpolation
+                </ComboBoxItem>
+                <ComboBoxItem Name="CBITexture">
+                    Texture
+                </ComboBoxItem>
+            </ComboBox>
+            <Button
+                Grid.Row="5"
                 Margin="5px"
                 Name="ButtonLightPosition"
                 Content="Set light position"
                 Click="ButtonLightPosition_Click"
             />
             <Button
-                Grid.Row="5"
+                Grid.Row="6"
                 Margin="5px"
                 Name="ButtonLightColor"
                 Content="Set light color"
                 Click="ButtonLightColor_Click"
             />
             <Label
-                Grid.Row="6"
+                Grid.Row="7"
                 Name="LabelLightHeight"
                 Margin="5px 2px 5px 2px"
                 Content="Light height"
             />
             <Slider
-                Grid.Row="7"
+                Grid.Row="8"
                 Name="SliderLightHeight"
                 Margin="5px"
                 ValueChanged="SliderLightHeight_ValueChanged"

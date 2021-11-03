@@ -9,10 +9,29 @@ namespace polygon_editor {
 
         public enum FillType {
             None,
-            Solid
+            SolidColor,
+            VertexIterpolation,
+            Texture
         };
 
         public FillType Fill;
+
+        public static FillType GetSelectedFillType(MainWindow mainWindow) {
+            var selected = mainWindow.ComboBoxPolygonFill.SelectedItem;
+            if (selected == mainWindow.CBISolidColor) return FillType.SolidColor;
+            if (selected == mainWindow.CBIVertexInterpolation) return FillType.VertexIterpolation;
+            if (selected == mainWindow.CBITexture) return FillType.Texture;
+            return FillType.None;
+        }
+
+        public static object GetFillTypeSelection(MainWindow mainWindow, FillType fill) {
+            switch(fill) {
+                case FillType.SolidColor: return mainWindow.CBISolidColor;
+                case FillType.VertexIterpolation: return mainWindow.CBIVertexInterpolation;
+                case FillType.Texture: return mainWindow.CBITexture;
+            }
+            return null;
+        }
 
         public Polygon() {
             Points = new (int, int)[0];
@@ -119,7 +138,7 @@ namespace polygon_editor {
                         Points.First().Item1, Points.First().Item2
                     );
                     break;
-                case FillType.Solid:
+                case FillType.SolidColor:
                     ScanLineFiller.FillSolidColor(plane, Points, Color);
                     break;
             }

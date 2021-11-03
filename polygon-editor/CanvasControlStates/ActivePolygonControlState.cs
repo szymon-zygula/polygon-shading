@@ -18,6 +18,10 @@ namespace polygon_editor{
             MainWindow.ButtonColorPolygon.Click += ButtonColorPolygon_Click;
             MainWindow.ButtonColorVertex.IsEnabled = true;
             MainWindow.ButtonColorVertex.Click += ButtonColorVertex_Click;
+            MainWindow.ComboBoxPolygonFill.IsEnabled = true;
+            MainWindow.ComboBoxPolygonFill.SelectedItem =
+                Polygon.GetFillTypeSelection(MainWindow, ActivePolygon.Fill);
+            MainWindow.ComboBoxPolygonFill.SelectionChanged += ComboBoxPolygonFill_SelectionChanged;
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
@@ -119,6 +123,9 @@ namespace polygon_editor{
             MainWindow.ButtonColorPolygon.Click -= ButtonColorPolygon_Click;
             MainWindow.ButtonColorVertex.IsEnabled = false;
             MainWindow.ButtonColorVertex.Click -= ButtonColorVertex_Click;
+            MainWindow.ComboBoxPolygonFill.IsEnabled = false;
+            MainWindow.ComboBoxPolygonFill.SelectionChanged -= ComboBoxPolygonFill_SelectionChanged;
+            MainWindow.ComboBoxPolygonFill.SelectedItem = null;
         }
 
         private void ButtonColorVertex_Click(object sender, RoutedEventArgs e) {
@@ -131,6 +138,11 @@ namespace polygon_editor{
                 ActivePolygon.Color = newColor.Value;
                 State.UpdateCanvas();
             }
+        }
+
+        private void ComboBoxPolygonFill_SelectionChanged(object sender, EventArgs e) {
+            ActivePolygon.Fill = Polygon.GetSelectedFillType(MainWindow);
+            State.UpdateCanvas();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace polygon_editor {
             if (DrawnPolygon.Points.Length >= 4) {
                 DrawnPolygon.Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
                 DrawnPolygon.RemoveLastPoint();
-                DrawnPolygon.Fill = Polygon.FillType.Solid;
+                DrawnPolygon.Fill = Polygon.FillType.SolidColor;
                 State.AddPolygon(DrawnPolygon);
             }
 
