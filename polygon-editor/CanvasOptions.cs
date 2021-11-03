@@ -10,7 +10,7 @@ namespace polygon_editor {
         public static readonly UInt32 SET_CONSTRAINT_MARKER_COLOR = 0xFF00FF00;
 
         public static readonly UInt32 DRAWN_POLYGON_COLOR = 0xFF00B000;
-        public static readonly UInt32 DEFAULT_POLYGON_COLOR = 0xFF0000FF;
+        public static readonly UInt32 DEFAULT_POLYGON_COLOR = 0xFF888888;
         public static readonly UInt32 DEFAULT_VERTEX_COLOR = 0xFFFF0000;
 
         public static readonly UInt32 DEFAULT_LIGHT_COLOR = 0xFFBB2200;

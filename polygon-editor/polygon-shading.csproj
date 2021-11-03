@@ -67,6 +67,7 @@
     <Compile Include="CanvasControlStates\PlacingLightControlState.cs" />
     <Compile Include="InterfaceUtils.cs" />
     <Compile Include="MathUtils.cs" />
+    <Compile Include="ScanLineFiller.cs" />
     <Compile Include="Shapes\LightIcon.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Vec.cs" />

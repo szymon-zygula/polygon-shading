@@ -7,10 +7,18 @@ namespace polygon_editor {
         public UInt32 Color { get; set; }
         public UInt32[] VertexColors { get; set; }
 
+        public enum FillType {
+            None,
+            Solid
+        };
+
+        public FillType Fill;
+
         public Polygon() {
             Points = new (int, int)[0];
             VertexColors = new UInt32[0];
             Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
+            Fill = FillType.None;
         }
 
         public (int, int) EdgeMidpoint(int n) {
@@ -102,12 +110,19 @@ namespace polygon_editor {
         }
 
         public override void DrawOn(DrawingPlane plane) {
-            DrawIncompleteOn(plane);
-            BresenhamDrawer.Line(
-                plane, Color,
-                Points.Last().Item1, Points.Last().Item2,
-                Points.First().Item1, Points.First().Item2
-            );
+            switch(Fill) {
+                case FillType.None:
+                    DrawIncompleteOn(plane);
+                    BresenhamDrawer.Line(
+                        plane, Color,
+                        Points.Last().Item1, Points.Last().Item2,
+                        Points.First().Item1, Points.First().Item2
+                    );
+                    break;
+                case FillType.Solid:
+                    ScanLineFiller.FillSolidColor(plane, Points, Color);
+                    break;
+            }
         }
 
         public (double, double) EdgeVector(int edge1, int edge2) {
