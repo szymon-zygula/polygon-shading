@@ -15,8 +15,8 @@ namespace polygon_editor {
 
         public CanvasControlState ControlState { get; private set; }
 
-        public Vec3 LightPosition;
-        public UInt32 LightColor { get; set; }
+        public LightIcon LightShape;
+        public double LightHeight;
 
         public CanvasState(Image canvas, ListView shapeList) {
             Canvas = canvas;
@@ -25,6 +25,13 @@ namespace polygon_editor {
             Polygons = new List<Polygon>();
             Plane = new DrawingPlane((int)Canvas.Width, (int)Canvas.Height);
             ControlState = new DoingNothingControlState(this);
+            LightShape = new LightIcon(
+                CanvasOptions.DEFAULT_LIGHT_COLOR,
+                100, 100,
+                CanvasOptions.LIGHT_ICON_RAYS,
+                CanvasOptions.LIGHT_ICON_RADIUS
+            );
+
 
             Plane.Fill(CanvasOptions.BACKGROUND_COLOR);
             Canvas.Source = Plane.CreateBitmapSource();
@@ -64,6 +71,8 @@ namespace polygon_editor {
             foreach (Polygon polygon in Polygons) {
                 Plane.Draw(polygon);
             }
+
+            Plane.Draw(LightShape);
 
             ControlState.DrawStateFeatures();
 

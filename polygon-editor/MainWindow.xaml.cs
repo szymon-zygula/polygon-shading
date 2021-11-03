@@ -10,7 +10,11 @@ namespace polygon_editor {
 
         public MainWindow() {
             InitializeComponent();
-            State = new CanvasState(Canvas, ShapeList);
+            State = new CanvasState(Canvas, ShapeList) {
+                LightHeight = SliderLightHeight.Value
+            };
+
+            State.UpdateCanvas();
         }
 
         private void ButtonDrawPolygon_Click(object sender, RoutedEventArgs e) {
@@ -53,16 +57,19 @@ namespace polygon_editor {
         private void ButtonLightColor_Click(object sender, RoutedEventArgs e) {
             UInt32? color = InterfaceUtils.GetColorFromDialog();
             if(color.HasValue) {
-                State.LightColor = color.Value;
+                State.LightShape.Color = color.Value;
+                State.UpdateCanvas();
             }
         }
 
         private void SliderLightHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            State.LightPosition.Z = SliderLightHeight.Value;
+            if(State != null) {
+                State.LightHeight = SliderLightHeight.Value;
+            }
         }
 
         private void ButtonLightPosition_Click(object sender, RoutedEventArgs e) {
-
+            State.SetControlState(new PlacingLightControlState(State));
         }
     }
 }

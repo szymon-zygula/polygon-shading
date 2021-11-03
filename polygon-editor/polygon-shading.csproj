@@ -64,8 +64,10 @@
     </ApplicationDefinition>
     <Compile Include="ArrayUtils.cs" />
     <Compile Include="CanvasControlStates\ModificationControlStates\ColoringVertexControlState.cs" />
+    <Compile Include="CanvasControlStates\PlacingLightControlState.cs" />
     <Compile Include="InterfaceUtils.cs" />
     <Compile Include="MathUtils.cs" />
+    <Compile Include="Shapes\LightIcon.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Vec.cs" />
     <Page Include="MainWindow.xaml">
