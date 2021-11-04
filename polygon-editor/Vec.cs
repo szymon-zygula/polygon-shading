@@ -19,7 +19,7 @@ namespace polygon_editor {
         }
 
         public static Vec2 RandomNormal() {
-            Vec2 u = new Vec2(Rnd.NextDouble(), Rnd.NextDouble());
+            Vec2 u = new Vec2(Rnd.NextDouble() * 2.0 - 1.0, Rnd.NextDouble() * 2.0 - 1.0);
             return u.Normalize();
         }
 
@@ -66,7 +66,11 @@ namespace polygon_editor {
         }
 
         public static Vec3 RandomNormal() {
-            Vec3 u = new Vec3(Rnd.NextDouble(), Rnd.NextDouble(), Rnd.NextDouble());
+            Vec3 u = new Vec3(
+                Rnd.NextDouble() * 2.0 - 1.0,
+                Rnd.NextDouble() * 2.0 - 1.0,
+                Rnd.NextDouble() * 2.0 - 1.0
+            );
             return u.Normalize();
         }
 

@@ -144,5 +144,11 @@ namespace polygon_editor {
                     break;
             }
         }
+
+        public void Translate(Vec2 trans) {
+            for(int i = 0; i < Points.Length; ++i) {
+                Points[i] += trans;
+            }
+        }
     }
 }
