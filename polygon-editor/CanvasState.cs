@@ -18,6 +18,9 @@ namespace polygon_editor {
         public LightIcon LightShape;
         public double LightHeight;
 
+        public double MaxAnimationSpeed;
+        public double MinAnimationSpeed;
+
         public CanvasState(Image canvas, ListView shapeList) {
             Canvas = canvas;
             ShapeList = shapeList;
@@ -32,6 +35,8 @@ namespace polygon_editor {
                 CanvasOptions.LIGHT_ICON_RADIUS
             );
 
+            MaxAnimationSpeed = 0.5;
+            MinAnimationSpeed = 0.5;
 
             Plane.Fill(CanvasOptions.BACKGROUND_COLOR);
             Canvas.Source = Plane.CreateBitmapSource();

@@ -32,6 +32,11 @@
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
                 <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="30px" />
             </Grid.RowDefinitions>
             <Button
                 Grid.Row="0"
@@ -104,6 +109,45 @@
                 Minimum="1"
                 Value="50"
                 Maximum="100"
+            />
+            <Button
+                Grid.Row="9"
+                Margin="5px"
+                Name="ButtonAnimationToggle"
+                Content="Toggle animation"
+                Click="ButtonAnimationToggle_Click"
+            />
+            <Label
+                Grid.Row="10"
+                Name="LabelMaxAnimationSpeed"
+                Margin="5px 2px 5px 2px"
+                Content="Maximal animation speed"
+            />
+            <Slider
+                Grid.Row="11"
+                Name="SliderMaxAnimationSpeed"
+                Margin="5px"
+                ValueChanged="SliderMaxAnimationSpeed_ValueChanged"
+                Minimum="0"
+                Value="0.5"
+                TickFrequency="0.01"
+                Maximum="1"
+            />
+            <Label
+                Grid.Row="12"
+                Name="LabelMinAnimationSpeed"
+                Margin="5px 2px 5px 2px"
+                Content="Minimal animation speed"
+            />
+            <Slider
+                Grid.Row="13"
+                Name="SliderMinAnimationSpeed"
+                Margin="5px"
+                ValueChanged="SliderMinAnimationSpeed_ValueChanged"
+                Minimum="0"
+                Value="0.5"
+                TickFrequency="0.01"
+                Maximum="1"
             />
         </Grid>
     </Grid>

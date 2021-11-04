@@ -71,5 +71,30 @@ namespace polygon_editor {
         private void ButtonLightPosition_Click(object sender, RoutedEventArgs e) {
             State.SetControlState(new PlacingLightControlState(State));
         }
+
+        private void SliderMaxAnimationSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            if (State == null) return;
+            if(SliderMaxAnimationSpeed.Value < SliderMinAnimationSpeed.Value) {
+                SliderMinAnimationSpeed.Value = SliderMaxAnimationSpeed.Value;
+            }
+            State.MaxAnimationSpeed = SliderMaxAnimationSpeed.Value;
+        }
+
+        private void SliderMinAnimationSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            if (State == null) return;
+            if(SliderMaxAnimationSpeed.Value < SliderMinAnimationSpeed.Value) {
+                SliderMaxAnimationSpeed.Value = SliderMinAnimationSpeed.Value;
+            }
+            State.MinAnimationSpeed = SliderMinAnimationSpeed.Value;
+        }
+
+        private void ButtonAnimationToggle_Click(object sender, RoutedEventArgs e) {
+            if(State.ControlState is AnimationControlState) {
+                State.SetControlState(new DoingNothingControlState(State));
+            }
+            else {
+                State.SetControlState(new AnimationControlState(State));
+            }
+        }
     }
 }

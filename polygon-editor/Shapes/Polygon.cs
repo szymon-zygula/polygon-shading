@@ -7,6 +7,7 @@ namespace polygon_editor {
         public UInt32 Color { get; set; }
         public UInt32[] VertexColors { get; set; }
 
+
         public enum FillType {
             None,
             SolidColor,
