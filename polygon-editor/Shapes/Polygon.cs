@@ -138,6 +138,9 @@ namespace polygon_editor {
                         Points.First().Item1, Points.First().Item2
                     );
                     break;
+                case FillType.VertexIterpolation:
+                    ScanLineFiller.FillVertexInterpolation(plane, Points, VertexColors);
+                    break;
                 case FillType.SolidColor:
                     ScanLineFiller.FillSolidColor(plane, Points, Color);
                     break;
