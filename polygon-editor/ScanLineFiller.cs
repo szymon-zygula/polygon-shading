@@ -28,6 +28,26 @@ namespace polygon_editor {
             }
         }
 
+        private static void AddTopPointToAET((int, int)[] points, int point, List<ActiveEdge> aet) {
+            int x = points[point].Item1;
+            int nextPoint = (point + 1) % points.Length;
+            int prevPoint = point == 0 ? points.Length - 1 : point - 1;
+
+            AddToAET(aet, new ActiveEdge() {
+                X = x,
+                Diff = Differential(points, point, nextPoint),
+                From = point,
+                To = nextPoint
+            });
+
+            AddToAET(aet, new ActiveEdge() {
+                X = x,
+                Diff = Differential(points, point, prevPoint),
+                From = point,
+                To = prevPoint
+            });
+        }
+
         private static (List<ActiveEdge>, int) InitAET((int, int)[] points, int[] perm) {
             List<ActiveEdge> aet = new List<ActiveEdge>();
 
@@ -36,23 +56,7 @@ namespace polygon_editor {
                     return (aet, i);
                 }
 
-                int x = points[perm[i]].Item1;
-                int nextPoint = (perm[i] + 1) % points.Length;
-                int prevPoint = perm[i] == 0 ? points.Length - 1 : perm[i] - 1;
-
-                AddToAET(aet, new ActiveEdge() {
-                    X = x,
-                    Diff = Differential(points, perm[i], nextPoint),
-                    From = perm[i],
-                    To = nextPoint
-                });
-
-                AddToAET(aet, new ActiveEdge() {
-                    X = x,
-                    Diff = Differential(points, perm[i], prevPoint),
-                    From = perm[i],
-                    To = prevPoint
-                });
+                AddTopPointToAET(points, perm[i], aet);
             }
 
             return (aet, points.Length);
@@ -86,6 +90,18 @@ namespace polygon_editor {
             }
         }
 
+        private static void HandleNewPoints((int, int)[] points, int[] perm, ref int nextToProcess, List<ActiveEdge> aet, int y) {
+            while(points[perm[nextToProcess]].Item2 == y - 1) {
+                int nextPoint = (perm[nextToProcess] + 1) % points.Length;
+                int prevPoint = perm[nextToProcess] == 0 ? points.Length - 1 : perm[nextToProcess] - 1;
+
+                HandleNewEdge(points, aet, perm[nextToProcess], prevPoint);
+                HandleNewEdge(points, aet, perm[nextToProcess], nextPoint);
+
+                nextToProcess += 1;
+            }
+        }
+
         public static void FillSolidColor(DrawingPlane plane, (int, int)[] points, UInt32 color) {
             int[] perm = Enumerable.Range(0, points.Length).ToArray();
             Array.Sort(perm, (int a, int b) => points[a].Item2.CompareTo(points[b].Item2));
@@ -94,16 +110,8 @@ namespace polygon_editor {
             int ymin = points[perm[0]].Item2;
             int ymax = points[perm[points.Length - 1]].Item2;
 
-            for(int y = ymin; y <= ymax; ++y) {
-                while(points[perm[nextToProcess]].Item2 == y - 1) {
-                    int nextPoint = (perm[nextToProcess] + 1) % points.Length;
-                    int prevPoint = perm[nextToProcess] == 0 ? points.Length - 1 : perm[nextToProcess] - 1;
-
-                    HandleNewEdge(points, aet, perm[nextToProcess], prevPoint);
-                    HandleNewEdge(points, aet, perm[nextToProcess], nextPoint);
-
-                    nextToProcess += 1;
-                }
+            for(int y = ymin + 1; y <= ymax; ++y) {
+                HandleNewPoints(points, perm, ref nextToProcess, aet, y);
 
                 aet.Sort((ActiveEdge a, ActiveEdge b) => a.X.CompareTo(b.X));
                 DrawScanline(plane, aet, color, y);
