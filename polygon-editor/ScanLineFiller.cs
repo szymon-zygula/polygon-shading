@@ -14,20 +14,20 @@ namespace polygon_editor {
             public Vec3 ColorDiff;
         }
 
-        private static double Differential((int, int)[] points, int i, int j) {
-            if(points[i].Item2 == points[j].Item2) {
+        private static double Differential(Vec2[] points, int i, int j) {
+            if(points[i].Y == points[j].Y) {
                 return double.NaN;
             }
 
             return
-                (double)(points[j].Item1 - points[i].Item1) /
-                (double)(points[j].Item2 - points[i].Item2);
+                (double)(points[j].X - points[i].X) /
+                (double)(points[j].Y - points[i].Y);
         }
 
-        private static Vec3 ColorDifferential((int, int)[] points, UInt32[] colors, int i, int j) {
+        private static Vec3 ColorDifferential(Vec2[] points, UInt32[] colors, int i, int j) {
             return
                 (new Vec3(colors[j]) - new Vec3(colors[i])) /
-                (double)(points[j].Item2 - points[i].Item2);
+                (double)(points[j].Y - points[i].Y);
         }
 
         private static void AddToAET(List<ActiveEdge> aet, ActiveEdge ae) {
@@ -36,8 +36,8 @@ namespace polygon_editor {
             }
         }
 
-        private static void AddTopPointToAET((int, int)[] points, UInt32[] colors, int point, List<ActiveEdge> aet) {
-            int x = points[point].Item1;
+        private static void AddTopPointToAET(Vec2[] points, UInt32[] colors, int point, List<ActiveEdge> aet) {
+            double x = points[point].X;
             int nextPoint = (point + 1) % points.Length;
             int prevPoint = point == 0 ? points.Length - 1 : point - 1;
 
@@ -60,11 +60,11 @@ namespace polygon_editor {
             });
         }
 
-        private static (List<ActiveEdge>, int) InitAET((int, int)[] points, UInt32[] colors, int[] perm) {
+        private static (List<ActiveEdge>, int) InitAET(Vec2[] points, UInt32[] colors, int[] perm) {
             List<ActiveEdge> aet = new List<ActiveEdge>();
 
             for(int i = 0; i < points.Length; ++i) {
-                if(points[perm[i]].Item2 != points[perm[0]].Item2) {
+                if(points[perm[i]].Y != points[perm[0]].Y) {
                     return (aet, i);
                 }
 
@@ -74,10 +74,10 @@ namespace polygon_editor {
             return (aet, points.Length);
         }
 
-        private static void HandleNewEdge((int, int)[] points, UInt32[] colors, List<ActiveEdge> aet, int i, int j) {
-            if(points[j].Item2 >= points[i].Item2) {
+        private static void HandleNewEdge(Vec2[] points, UInt32[] colors, List<ActiveEdge> aet, int i, int j) {
+            if(points[j].Y >= points[i].Y) {
                 AddToAET(aet, new ActiveEdge() {
-                    X = points[i].Item1,
+                    X = points[i].X,
                     Diff = Differential(points, i, j),
                     From = i,
                     To = j,
@@ -109,8 +109,8 @@ namespace polygon_editor {
             }
         }
 
-        private static void HandleNewPoints((int, int)[] points, UInt32[] colors, int[] perm, ref int nextToProcess, List<ActiveEdge> aet, int y) {
-            while(points[perm[nextToProcess]].Item2 == y - 1) {
+        private static void HandleNewPoints(Vec2[] points, UInt32[] colors, int[] perm, ref int nextToProcess, List<ActiveEdge> aet, int y) {
+            while((int)Math.Round(points[perm[nextToProcess]].Y) == y - 1) {
                 int nextPoint = (perm[nextToProcess] + 1) % points.Length;
                 int prevPoint = perm[nextToProcess] == 0 ? points.Length - 1 : perm[nextToProcess] - 1;
 
@@ -121,18 +121,18 @@ namespace polygon_editor {
             }
         }
 
-        public static void FillSolidColor(DrawingPlane plane, (int, int)[] points, UInt32 color) {
+        public static void FillSolidColor(DrawingPlane plane, Vec2[] points, UInt32 color) {
             UInt32[] colors = Enumerable.Repeat<UInt32>(color, points.Length).ToArray();
             FillVertexInterpolation(plane, points, colors);
         }
 
-        public static void FillVertexInterpolation(DrawingPlane plane, (int, int)[] points, UInt32[] colors) {
+        public static void FillVertexInterpolation(DrawingPlane plane, Vec2[] points, UInt32[] colors) {
             int[] perm = Enumerable.Range(0, points.Length).ToArray();
-            Array.Sort(perm, (int a, int b) => points[a].Item2.CompareTo(points[b].Item2));
+            Array.Sort(perm, (int a, int b) => points[a].Y.CompareTo(points[b].Y));
             (List<ActiveEdge> aet, int nextToProcess) = InitAET(points, colors, perm);
 
-            int ymin = points[perm[0]].Item2;
-            int ymax = points[perm[points.Length - 1]].Item2;
+            int ymin = (int)Math.Round(points[perm[0]].Y);
+            int ymax = (int)Math.Round(points[perm[points.Length - 1]].Y);
 
             for(int y = ymin + 1; y <= ymax; ++y) {
                 HandleNewPoints(points, colors, perm, ref nextToProcess, aet, y);

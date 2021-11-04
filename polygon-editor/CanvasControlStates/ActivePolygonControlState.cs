@@ -33,9 +33,9 @@ namespace polygon_editor{
         }
 
         private bool TryEnterMovingPolygonState(double mouseX, double mouseY) {
-            (int, int) center = ActivePolygon.GetCenter();
-            bool isWithinXRadius = Math.Abs(center.Item1 - mouseX) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
-            bool isWithinYRadius = Math.Abs(center.Item2 - mouseY) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
+            Vec2 center = ActivePolygon.GetCenter();
+            bool isWithinXRadius = Math.Abs(center.X - mouseX) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
+            bool isWithinYRadius = Math.Abs(center.Y - mouseY) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
             if (!isWithinXRadius || !isWithinYRadius) return false;
             State.SetControlState(new MovingPolygonControlState(State, ActivePolygon, MainWindow));
             return true;
@@ -65,9 +65,9 @@ namespace polygon_editor{
         }
 
         private bool TryRemoveActivePolygon(double mouseX, double mouseY) {
-            (int, int) center = ActivePolygon.GetCenter();
-            bool isWithinXRange = Math.Abs(center.Item1 - mouseX) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
-            bool isWithinYRange = Math.Abs(center.Item2 - mouseY) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
+            Vec2 center = ActivePolygon.GetCenter();
+            bool isWithinXRange = Math.Abs(center.X - mouseX) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
+            bool isWithinYRange = Math.Abs(center.Y - mouseY) <= CanvasOptions.ACTIVE_VERTEX_RADIUS;
             if (!isWithinXRange || !isWithinYRange) return false;
             RemoveActivePolygon();
             return true;
@@ -94,8 +94,8 @@ namespace polygon_editor{
             double mouseY = e.GetPosition(State.Canvas).Y;
             int? edge = ActivePolygon.FindEdgeWithinSquareRadius(mouseX, mouseY, CanvasOptions.ACTIVE_EDGE_RADIUS);
             if (edge == null) return;
-            (int, int) midpoint = ActivePolygon.EdgeMidpoint(edge.Value);
-            ActivePolygon.InsertPointAt(midpoint.Item1, midpoint.Item2, edge.Value + 1);
+            Vec2 midpoint = ActivePolygon.EdgeMidpoint(edge.Value);
+            ActivePolygon.InsertPointAt(midpoint, edge.Value + 1);
             State.UpdateCanvas();
         }
 

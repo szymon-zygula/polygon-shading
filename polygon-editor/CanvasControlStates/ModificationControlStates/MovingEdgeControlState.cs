@@ -13,17 +13,17 @@ namespace polygon_editor {
         }
 
         public override void OnMouseMove(MouseEventArgs e) {
-            (int, int) mid = ActivePolygon.EdgeMidpoint(EdgeIdx);
-            int deltaX = (int)e.GetPosition(State.Canvas).X - mid.Item1;
-            int deltaY = (int)e.GetPosition(State.Canvas).Y - mid.Item2;
+            Vec2 mid = ActivePolygon.EdgeMidpoint(EdgeIdx);
+            double deltaX = e.GetPosition(State.Canvas).X - mid.X;
+            double deltaY = e.GetPosition(State.Canvas).Y - mid.Y;
             int idx1 = EdgeIdx;
             int idx2 = EdgeIdx == ActivePolygon.Points.Length - 1
                 ? 0
                 : EdgeIdx + 1;
-            ActivePolygon.Points[idx1].Item1 += deltaX;
-            ActivePolygon.Points[idx1].Item2 += deltaY;
-            ActivePolygon.Points[idx2].Item1 += deltaX;
-            ActivePolygon.Points[idx2].Item2 += deltaY;
+            ActivePolygon.Points[idx1].X += deltaX;
+            ActivePolygon.Points[idx1].Y += deltaY;
+            ActivePolygon.Points[idx2].X += deltaX;
+            ActivePolygon.Points[idx2].Y += deltaY;
             State.UpdateCanvas();
         }
 

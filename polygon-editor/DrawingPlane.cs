@@ -34,12 +34,12 @@ namespace polygon_editor {
             shape.DrawOn(this);
         }
 
-        private Polygon CreateSquare(UInt32 color, int x, int y, int r) {
+        private Polygon CreateSquare(UInt32 color, double x, double y, int r) {
             Polygon square = new Polygon();
-            square.AddPoint(x + r, y + r);
-            square.AddPoint(x - r, y + r);
-            square.AddPoint(x - r, y - r);
-            square.AddPoint(x + r, y - r);
+            square.AddPoint(new Vec2(x + r, y + r));
+            square.AddPoint(new Vec2(x - r, y + r));
+            square.AddPoint(new Vec2(x - r, y - r));
+            square.AddPoint(new Vec2(x + r, y - r));
             square.Color = color;
             return square;
         }
@@ -51,8 +51,8 @@ namespace polygon_editor {
         }
 
         public void MarkPolygonEdge(UInt32 color, int r, Polygon polygon, int edge) {
-            (int, int) mid = polygon.EdgeMidpoint(edge);
-            Polygon square = CreateSquare(color, mid.Item1, mid.Item2, r);
+            Vec2 mid = polygon.EdgeMidpoint(edge);
+            Polygon square = CreateSquare(color, mid.X, mid.Y, r);
             Draw(square);
         }
 
@@ -62,15 +62,15 @@ namespace polygon_editor {
                     this,
                     polygon.VertexColors[i],
                     r,
-                    polygon.Points[i].Item1,
-                    polygon.Points[i].Item2
+                    polygon.Points[i].X,
+                    polygon.Points[i].Y
                 );
             }
         }
 
         public void MarkPolygonCenter(UInt32 color, int r, Polygon polygon) {
-            (int, int) center = polygon.GetCenter();
-            Polygon square = CreateSquare(color, center.Item1, center.Item2, r);
+            Vec2 center = polygon.GetCenter();
+            Polygon square = CreateSquare(color, center.X, center.Y, r);
             Draw(square);
         }
 

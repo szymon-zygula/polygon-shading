@@ -66,6 +66,10 @@ namespace polygon_editor {
             }
         }
 
+        public static void Line(DrawingPlane plane, UInt32 color, double x0, double y0, double x1, double y1) {
+            Line(plane, color, (int)Math.Round(x0), (int)Math.Round(y0), (int)Math.Round(x1), (int)Math.Round(y1));
+        }
+
         private static void PutSymmetricalCirclePixel(DrawingPlane plane, UInt32 color, int x0, int y0, int x, int y) {
             plane.SetPixel(x0 + x, y0 + y, color);
             plane.SetPixel(x0 - x, y0 + y, color);
@@ -100,6 +104,10 @@ namespace polygon_editor {
                 x += 1;
                 PutSymmetricalCirclePixel(plane, color, x0, y0, x, y);
             }
+        }
+
+        public static void Circle(DrawingPlane plane, UInt32 color, double r, double x0, double y0) {
+            Circle(plane, color, (int)Math.Round(r), (int)Math.Round(x0), (int)Math.Round(y0));
         }
     }
 }

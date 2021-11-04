@@ -17,9 +17,10 @@ namespace polygon_editor {
         }
 
         public override void OnMouseMove(MouseEventArgs e) {
-            ActivePolygon.Points[VertexIdx] = (
-                (int)e.GetPosition(State.Canvas).X,
-                (int)e.GetPosition(State.Canvas).Y);
+            ActivePolygon.Points[VertexIdx] = (new Vec2(
+                e.GetPosition(State.Canvas).X,
+                e.GetPosition(State.Canvas).Y
+            ));
             State.UpdateCanvas();
         }
     }

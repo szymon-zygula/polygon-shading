@@ -15,14 +15,14 @@ namespace polygon_editor {
         }
 
         public override void OnMouseLeftButtonUp(MouseButtonEventArgs e) {
-            int mouseX = (int)e.GetPosition(State.Canvas).X;
-            int mouseY = (int)e.GetPosition(State.Canvas).Y;
+            double mouseX = e.GetPosition(State.Canvas).X;
+            double mouseY = e.GetPosition(State.Canvas).Y;
 
             if (DrawnPolygon.Points.Length == 0) {
-                DrawnPolygon.AddPoint(mouseX, mouseY);
+                DrawnPolygon.AddPoint(new Vec2(mouseX, mouseY));
             }
 
-            DrawnPolygon.AddPoint(mouseX, mouseY);
+            DrawnPolygon.AddPoint(new Vec2(mouseX, mouseY));
             State.UpdateCanvas();
         }
 
@@ -32,8 +32,8 @@ namespace polygon_editor {
 
         public override void OnMouseMove(MouseEventArgs e) {
             if (DrawnPolygon.Points.Length == 0) return;
-            DrawnPolygon.Points[DrawnPolygon.Points.Length - 1] = (
-                (int)e.GetPosition(State.Canvas).X, (int)e.GetPosition(State.Canvas).Y
+            DrawnPolygon.Points[DrawnPolygon.Points.Length - 1] = new Vec2(
+                e.GetPosition(State.Canvas).X, e.GetPosition(State.Canvas).Y
             );
             State.UpdateCanvas();
         }

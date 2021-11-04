@@ -11,12 +11,12 @@ namespace polygon_editor{
         }
 
         public override void OnMouseMove(MouseEventArgs e) {
-            (int, int) center = MovedPolygon.GetCenter();
-            int deltaX = (int)e.GetPosition(State.Canvas).X - center.Item1;
-            int deltaY = (int)e.GetPosition(State.Canvas).Y - center.Item2;
+            Vec2 center = MovedPolygon.GetCenter();
+            double deltaX = e.GetPosition(State.Canvas).X - center.X;
+            double deltaY = e.GetPosition(State.Canvas).Y - center.Y;
             for (int i = 0; i < MovedPolygon.Points.Length; ++i) {
-                MovedPolygon.Points[i].Item1 += deltaX;
-                MovedPolygon.Points[i].Item2 += deltaY;
+                MovedPolygon.Points[i].X += deltaX;
+                MovedPolygon.Points[i].Y += deltaY;
             }
             State.UpdateCanvas();
         }
