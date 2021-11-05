@@ -7,6 +7,10 @@ namespace polygon_editor {
         public UInt32 Color { get; set; }
         public UInt32[] VertexColors { get; set; }
 
+        public double DiffuseComponent;
+        public double SpecularComponent;
+        public double SpecularExponent;
+
 
         public enum FillType {
             None,
@@ -16,6 +20,16 @@ namespace polygon_editor {
         };
 
         public FillType Fill;
+
+        public Polygon() {
+            Points = new Vec2[0];
+            VertexColors = new UInt32[0];
+            Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
+            Fill = FillType.None;
+            DiffuseComponent = 0.5;
+            SpecularComponent = 0.5;
+            SpecularExponent = 50;
+        }
 
         public static FillType GetSelectedFillType(MainWindow mainWindow) {
             var selected = mainWindow.ComboBoxPolygonFill.SelectedItem;
@@ -32,13 +46,6 @@ namespace polygon_editor {
                 case FillType.Texture: return mainWindow.CBITexture;
             }
             return null;
-        }
-
-        public Polygon() {
-            Points = new Vec2[0];
-            VertexColors = new UInt32[0];
-            Color = CanvasOptions.DEFAULT_POLYGON_COLOR;
-            Fill = FillType.None;
         }
 
         public Vec2 EdgeMidpoint(int n) {

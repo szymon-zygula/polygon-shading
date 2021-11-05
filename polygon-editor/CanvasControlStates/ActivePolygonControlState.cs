@@ -24,13 +24,29 @@ namespace polygon_editor{
             MainWindow.SliderSpecularExponent.IsEnabled = state;
         }
 
-        public override void EnterState() {
-            SetControlsStatus(true);
+        private void AddControlsHandlers() {
+            MainWindow.ComboBoxPolygonFill.SelectionChanged += ComboBoxPolygonFill_SelectionChanged;
             MainWindow.ButtonColorPolygon.Click += ButtonColorPolygon_Click;
             MainWindow.ButtonColorVertex.Click += ButtonColorVertex_Click;
+            MainWindow.ButtonPolygonTexture.Click += ButtonPolygonTexture_Click;
+            MainWindow.ButtonPolygonHeightMap.Click += ButtonPolygonHeightMap_Click;
+            MainWindow.SliderDiffuseComponent.ValueChanged += SliderDiffuseComponent_ValueChanged;
+            MainWindow.SliderSpecularComponent.ValueChanged += SliderSpecularCompoment_ValueChanged;
+            MainWindow.SliderSpecularExponent.ValueChanged += SliderSpecularExponent_ValueChanged;
+        }
+
+        private void SetControlsValues() {
             MainWindow.ComboBoxPolygonFill.SelectedItem =
                 Polygon.GetFillTypeSelection(MainWindow, ActivePolygon.Fill);
-            MainWindow.ComboBoxPolygonFill.SelectionChanged += ComboBoxPolygonFill_SelectionChanged;
+            MainWindow.SliderDiffuseComponent.Value = ActivePolygon.DiffuseComponent;
+            MainWindow.SliderSpecularComponent.Value = ActivePolygon.SpecularComponent;
+            MainWindow.SliderSpecularExponent.Value = ActivePolygon.SpecularExponent;
+        }
+
+        public override void EnterState() {
+            SetControlsStatus(true);
+            SetControlsValues();
+            AddControlsHandlers();
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
@@ -127,12 +143,28 @@ namespace polygon_editor{
             );
         }
 
-        public override void ExitState() {
-            SetControlsStatus(false);
+        private void RemoveControlsHandlers() {
+            MainWindow.ComboBoxPolygonFill.SelectionChanged -= ComboBoxPolygonFill_SelectionChanged;
             MainWindow.ButtonColorPolygon.Click -= ButtonColorPolygon_Click;
             MainWindow.ButtonColorVertex.Click -= ButtonColorVertex_Click;
-            MainWindow.ComboBoxPolygonFill.SelectionChanged -= ComboBoxPolygonFill_SelectionChanged;
+            MainWindow.ButtonPolygonTexture.Click -= ButtonPolygonTexture_Click;
+            MainWindow.ButtonPolygonHeightMap.Click -= ButtonPolygonHeightMap_Click;
+            MainWindow.SliderDiffuseComponent.ValueChanged -= SliderDiffuseComponent_ValueChanged;
+            MainWindow.SliderSpecularComponent.ValueChanged -= SliderSpecularCompoment_ValueChanged;
+            MainWindow.SliderSpecularExponent.ValueChanged -= SliderSpecularExponent_ValueChanged;
+        }
+
+        public void ResetControlsValues() {
+            MainWindow.SliderDiffuseComponent.Value = 0.5;
+            MainWindow.SliderSpecularComponent.Value = 0.5;
+            MainWindow.SliderSpecularExponent.Value = 50;
             MainWindow.ComboBoxPolygonFill.SelectedItem = null;
+        }
+
+        public override void ExitState() {
+            SetControlsStatus(false);
+            RemoveControlsHandlers();
+            ResetControlsValues();
         }
 
         private void ButtonColorVertex_Click(object sender, RoutedEventArgs e) {
@@ -151,5 +183,29 @@ namespace polygon_editor{
             ActivePolygon.Fill = Polygon.GetSelectedFillType(MainWindow);
             State.UpdateCanvas();
         }
+
+        private void SliderSpecularExponent_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            ActivePolygon.SpecularExponent = MainWindow.SliderSpecularExponent.Value;
+            State.UpdateCanvas();
+        }
+
+        private void SliderSpecularCompoment_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            ActivePolygon.SpecularComponent = MainWindow.SliderSpecularComponent.Value;
+            State.UpdateCanvas();
+        }
+
+        private void SliderDiffuseComponent_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            ActivePolygon.DiffuseComponent = MainWindow.SliderDiffuseComponent.Value;
+            State.UpdateCanvas();
+        }
+
+        private void ButtonPolygonHeightMap_Click(object sender, RoutedEventArgs e) {
+            State.UpdateCanvas();
+        }
+
+        private void ButtonPolygonTexture_Click(object sender, RoutedEventArgs e) {
+            State.UpdateCanvas();
+        }
+
     }
 }
