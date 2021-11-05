@@ -20,7 +20,7 @@ namespace polygon_editor {
             Radius = radius;
         }
 
-        public override void DrawOn(DrawingPlane plane) {
+        public override void DrawOn(DrawingPlane plane, ScanLineFiller.LightPackage lp) {
             DrawDisc(plane);
             DrawRays(plane);
         }

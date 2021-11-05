@@ -30,8 +30,8 @@ namespace polygon_editor {
             }
         }
 
-        public void Draw(Shape shape) {
-            shape.DrawOn(this);
+        public void Draw(Shape shape, ScanLineFiller.LightPackage lp) {
+            shape.DrawOn(this, lp);
         }
 
         private Polygon CreateSquare(UInt32 color, double x, double y, int r) {
@@ -53,7 +53,7 @@ namespace polygon_editor {
         public void MarkPolygonEdge(UInt32 color, int r, Polygon polygon, int edge) {
             Vec2 mid = polygon.EdgeMidpoint(edge);
             Polygon square = CreateSquare(color, mid.X, mid.Y, r);
-            Draw(square);
+            Draw(square, null);
         }
 
         public void MarkPolygonVertices(int r, Polygon polygon) {
@@ -71,7 +71,7 @@ namespace polygon_editor {
         public void MarkPolygonCenter(UInt32 color, int r, Polygon polygon) {
             Vec2 center = polygon.GetCenter();
             Polygon square = CreateSquare(color, center.X, center.Y, r);
-            Draw(square);
+            Draw(square, null);
         }
 
         public BitmapSource CreateBitmapSource() {

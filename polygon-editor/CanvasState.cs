@@ -40,6 +40,7 @@ namespace polygon_editor {
 
             Plane.Fill(CanvasOptions.BACKGROUND_COLOR);
             Canvas.Source = Plane.CreateBitmapSource();
+            LightHeight = 50;
         }
 
         public (int?, Polygon) FindAnyEdgeWithinMouse(double mouseX, double mouseY) {
@@ -74,10 +75,17 @@ namespace polygon_editor {
             Plane.Fill(CanvasOptions.BACKGROUND_COLOR);
 
             foreach (Polygon polygon in Polygons) {
-                Plane.Draw(polygon);
+                ScanLineFiller.LightPackage lp = new ScanLineFiller.LightPackage() {
+                    IL = new Vec3(LightShape.Color),
+                    ks = polygon.SpecularComponent,
+                    kd = polygon.DiffuseComponent,
+                    lightPos = new Vec3(LightShape.X, LightShape.Y, LightHeight),
+                    m = polygon.SpecularExponent
+                };
+                Plane.Draw(polygon, lp);
             }
 
-            Plane.Draw(LightShape);
+            Plane.Draw(LightShape, null);
 
             ControlState.DrawStateFeatures();
 

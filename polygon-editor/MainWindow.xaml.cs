@@ -48,6 +48,7 @@ namespace polygon_editor {
                 Polygon polygon = ShapeList.SelectedItem as Polygon;
                 State.SetControlState(new ActivePolygonControlState(State, polygon, this));
                 State.UpdateCanvas();
+                ShapeList.SelectedItem = null;
             }
             else {
                 ShapeList.SelectedItem = null;
@@ -65,6 +66,7 @@ namespace polygon_editor {
         private void SliderLightHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             if(State != null) {
                 State.LightHeight = SliderLightHeight.Value;
+                State.UpdateCanvas();
             }
         }
 

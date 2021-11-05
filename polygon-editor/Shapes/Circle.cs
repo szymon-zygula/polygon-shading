@@ -15,7 +15,7 @@ namespace polygon_editor {
             return $"Circle {Index}";
         }
 
-        public override void DrawOn(DrawingPlane plane) {
+        public override void DrawOn(DrawingPlane plane, ScanLineFiller.LightPackage lp) {
             BresenhamDrawer.Circle(plane, Color, R, X, Y);
         }
     }

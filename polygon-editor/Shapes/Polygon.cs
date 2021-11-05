@@ -31,7 +31,7 @@ namespace polygon_editor {
             Fill = FillType.None;
             DiffuseComponent = 0.5;
             SpecularComponent = 0.5;
-            SpecularExponent = 50;
+            SpecularExponent = 20;
         }
 
         public static FillType GetSelectedFillType(MainWindow mainWindow) {
@@ -136,7 +136,7 @@ namespace polygon_editor {
             }
         }
 
-        public override void DrawOn(DrawingPlane plane) {
+        public override void DrawOn(DrawingPlane plane, ScanLineFiller.LightPackage lp) {
             switch(Fill) {
                 case FillType.None:
                     DrawIncompleteOn(plane);
@@ -147,13 +147,13 @@ namespace polygon_editor {
                     );
                     break;
                 case FillType.VertexIterpolation:
-                    ScanLineFiller.FillVertexInterpolation(plane, Points, VertexColors);
+                    ScanLineFiller.FillVertexInterpolation(plane, Points, VertexColors, lp);
                     break;
                 case FillType.SolidColor:
-                    ScanLineFiller.FillSolidColor(plane, Points, Color);
+                    ScanLineFiller.FillSolidColor(plane, Points, Color, lp);
                     break;
                 case FillType.Texture:
-                    ScanLineFiller.FillTexture(plane, Points, Texture);
+                    ScanLineFiller.FillTexture(plane, Points, Texture, HeightMap, lp);
                     break;
             }
         }

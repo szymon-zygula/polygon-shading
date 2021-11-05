@@ -32,7 +32,7 @@ namespace polygon_editor {
 
         public override void EnterState() {
             Timer.Tick += new EventHandler(Timer_Tick);
-            Timer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 30);
+            Timer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 20);
             Timer.Start();
             Velocities = new Vec2[State.Polygons.Count];
             for(int i = 0; i < Velocities.Length; ++i) {

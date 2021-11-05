@@ -8,6 +8,6 @@ namespace polygon_editor {
     public abstract class Shape {
         public int Index { get; set; }
 
-        public abstract void DrawOn(DrawingPlane plane);
+        public abstract void DrawOn(DrawingPlane plane, ScanLineFiller.LightPackage lp);
     }
 }
