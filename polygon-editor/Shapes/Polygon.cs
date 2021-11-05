@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 
 namespace polygon_editor {
@@ -11,6 +12,8 @@ namespace polygon_editor {
         public double SpecularComponent;
         public double SpecularExponent;
 
+        public Bitmap Texture;
+        public Bitmap HeightMap;
 
         public enum FillType {
             None,
@@ -148,6 +151,9 @@ namespace polygon_editor {
                     break;
                 case FillType.SolidColor:
                     ScanLineFiller.FillSolidColor(plane, Points, Color);
+                    break;
+                case FillType.Texture:
+                    ScanLineFiller.FillTexture(plane, Points, Texture);
                     break;
             }
         }

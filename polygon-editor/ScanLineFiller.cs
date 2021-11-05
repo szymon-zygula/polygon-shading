@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -110,7 +111,52 @@ namespace polygon_editor {
             }
         }
 
-        private static void HandleNewPoints(Vec2[] points, UInt32[] colors, int[] perm, ref int nextToProcess, List<ActiveEdge> aet, int y) {
+        private static (int, int) GetBound(Vec2[] points) {
+            int x = (int)Math.Round(points.Min((Vec2 v) => v.X));
+            int y = (int)Math.Round(points.Min((Vec2 v) => v.Y));
+            return (x, y);
+        }
+
+        private static void DrawTexturedScanline(
+            DrawingPlane plane,
+            List<ActiveEdge> aet,
+            int y,
+            Bitmap texture,
+            int minX, int minY,
+            RectangleF textureBounds
+        ) {
+            for(int i = 0; i < aet.Count - 1; i += 2) {
+                ActiveEdge ae1 = aet[i];
+                ActiveEdge ae2 = aet[i + 1];
+                int height = (int)textureBounds.Height;
+                int width = (int)textureBounds.Width;
+
+                for(int x = (int)Math.Round(ae1.X); x <= (int)Math.Round(ae2.X); ++x) {
+                    UInt32 color;
+                    unsafe {
+                        int intColor = texture.GetPixel(
+                            (x - minX) % width,
+                            (y - minY) % height
+                        ).ToArgb();
+                        color = *(UInt32*)(void*)&intColor;
+                    }
+
+                    plane.SetPixel(x, y, color);
+                }
+
+                ae1.X += ae1.Diff;
+                ae2.X += ae2.Diff;
+            }
+        }
+
+        private static void HandleNewPoints(
+            Vec2[] points,
+            UInt32[] colors,
+            int[] perm,
+            ref int nextToProcess,
+            List<ActiveEdge> aet,
+            int y
+        ) {
             while((int)Math.Round(points[perm[nextToProcess]].Y) == y - 1) {
                 int nextPoint = (perm[nextToProcess] + 1) % points.Length;
                 int prevPoint = perm[nextToProcess] == 0 ? points.Length - 1 : perm[nextToProcess] - 1;
@@ -128,6 +174,15 @@ namespace polygon_editor {
         }
 
         public static void FillVertexInterpolation(DrawingPlane plane, Vec2[] points, UInt32[] colors) {
+            Fill(plane, points, colors, null);
+        }
+
+        public static void FillTexture(DrawingPlane plane, Vec2[] points, Bitmap texture) {
+            UInt32[] colors = Enumerable.Repeat<UInt32>(0xFF000000, points.Length).ToArray();
+            Fill(plane, points, colors, texture);
+        }
+
+        public static void Fill(DrawingPlane plane, Vec2[] points, UInt32[] colors, Bitmap texture) {
             int[] perm = Enumerable.Range(0, points.Length).ToArray();
             Array.Sort(perm, (int a, int b) => points[a].Y.CompareTo(points[b].Y));
             (List<ActiveEdge> aet, int nextToProcess) = InitAET(points, colors, perm);
@@ -135,11 +190,24 @@ namespace polygon_editor {
             int ymin = (int)Math.Round(points[perm[0]].Y);
             int ymax = (int)Math.Round(points[perm[points.Length - 1]].Y);
 
-            for(int y = ymin + 1; y <= ymax; ++y) {
-                HandleNewPoints(points, colors, perm, ref nextToProcess, aet, y);
+            if(texture == null) {
+                for(int y = ymin + 1; y <= ymax; ++y) {
+                    HandleNewPoints(points, colors, perm, ref nextToProcess, aet, y);
 
-                aet.Sort((ActiveEdge a, ActiveEdge b) => a.X.CompareTo(b.X));
-                DrawScanline(plane, aet, y);
+                    aet.Sort((ActiveEdge a, ActiveEdge b) => a.X.CompareTo(b.X));
+                    DrawScanline(plane, aet, y);
+                }
+            }
+            else {
+                GraphicsUnit units = GraphicsUnit.Pixel;
+                RectangleF textureBounds = texture.GetBounds(ref units);
+                (int, int) mins = GetBound(points);
+                for(int y = ymin + 1; y <= ymax; ++y) {
+                    HandleNewPoints(points, colors, perm, ref nextToProcess, aet, y);
+
+                    aet.Sort((ActiveEdge a, ActiveEdge b) => a.X.CompareTo(b.X));
+                    DrawTexturedScanline(plane, aet, y, texture, mins.Item1, mins.Item2, textureBounds);
+                }
             }
         }
     }

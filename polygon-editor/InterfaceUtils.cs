@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,17 @@ namespace polygon_editor {
             }
 
             return convertedColor;
+        }
+
+        public static Bitmap GetBitmapFromDialog() {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Open image";
+            dlg.Filter = "Image files (*.bmp, *.png, *.tga, *.jpg)|*.bmp;*.png;*.tga;*.jpg";
+            if(dlg.ShowDialog() != DialogResult.OK) {
+                return null;
+            }
+
+            return new Bitmap(dlg.FileName);
         }
     }
 }
