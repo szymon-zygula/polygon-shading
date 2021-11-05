@@ -13,12 +13,21 @@ namespace polygon_editor{
             MainWindow = mainWindow;
         }
 
+        private void SetControlsStatus(bool state) {
+            MainWindow.ButtonColorPolygon.IsEnabled = state;
+            MainWindow.ButtonColorVertex.IsEnabled = state;
+            MainWindow.ComboBoxPolygonFill.IsEnabled = state;
+            MainWindow.ButtonPolygonTexture.IsEnabled = state;
+            MainWindow.ButtonPolygonHeightMap.IsEnabled = state;
+            MainWindow.SliderDiffuseComponent.IsEnabled = state;
+            MainWindow.SliderSpecularComponent.IsEnabled = state;
+            MainWindow.SliderSpecularExponent.IsEnabled = state;
+        }
+
         public override void EnterState() {
-            MainWindow.ButtonColorPolygon.IsEnabled = true;
+            SetControlsStatus(true);
             MainWindow.ButtonColorPolygon.Click += ButtonColorPolygon_Click;
-            MainWindow.ButtonColorVertex.IsEnabled = true;
             MainWindow.ButtonColorVertex.Click += ButtonColorVertex_Click;
-            MainWindow.ComboBoxPolygonFill.IsEnabled = true;
             MainWindow.ComboBoxPolygonFill.SelectedItem =
                 Polygon.GetFillTypeSelection(MainWindow, ActivePolygon.Fill);
             MainWindow.ComboBoxPolygonFill.SelectionChanged += ComboBoxPolygonFill_SelectionChanged;
@@ -119,11 +128,9 @@ namespace polygon_editor{
         }
 
         public override void ExitState() {
-            MainWindow.ButtonColorPolygon.IsEnabled = false;
+            SetControlsStatus(false);
             MainWindow.ButtonColorPolygon.Click -= ButtonColorPolygon_Click;
-            MainWindow.ButtonColorVertex.IsEnabled = false;
             MainWindow.ButtonColorVertex.Click -= ButtonColorVertex_Click;
-            MainWindow.ComboBoxPolygonFill.IsEnabled = false;
             MainWindow.ComboBoxPolygonFill.SelectionChanged -= ComboBoxPolygonFill_SelectionChanged;
             MainWindow.ComboBoxPolygonFill.SelectedItem = null;
         }
