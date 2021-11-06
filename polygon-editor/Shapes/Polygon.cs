@@ -31,7 +31,7 @@ namespace polygon_editor {
             Fill = FillType.None;
             DiffuseComponent = 0.5;
             SpecularComponent = 0.5;
-            SpecularExponent = 20;
+            SpecularExponent = 30.0;
         }
 
         public static FillType GetSelectedFillType(MainWindow mainWindow) {

@@ -155,9 +155,9 @@ namespace polygon_editor{
         }
 
         public void ResetControlsValues() {
-            MainWindow.SliderDiffuseComponent.Value = 0.5;
-            MainWindow.SliderSpecularComponent.Value = 0.5;
-            MainWindow.SliderSpecularExponent.Value = 50;
+            MainWindow.SliderDiffuseComponent.Value = 0;
+            MainWindow.SliderSpecularComponent.Value = 0;
+            MainWindow.SliderSpecularExponent.Value = 0;
             MainWindow.ComboBoxPolygonFill.SelectedItem = null;
         }
 

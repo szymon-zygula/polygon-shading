@@ -114,7 +114,6 @@
                 Name="SliderDiffuseComponent"
                 Margin="5px"
                 Minimum="0"
-                Value="0.5"
                 Maximum="1"
                 IsEnabled="False"
             />
@@ -129,7 +128,6 @@
                 Name="SliderSpecularComponent"
                 Margin="5px"
                 Minimum="0"
-                Value="0.5"
                 Maximum="1"
                 IsEnabled="False"
             />
@@ -144,7 +142,6 @@
                 Name="SliderSpecularExponent"
                 Margin="5px"
                 Minimum="1"
-                Value="5"
                 Maximum="100"
                 IsEnabled="False"
             />
@@ -175,8 +172,8 @@
                 ValueChanged="SliderLightHeight_ValueChanged"
                 Minimum="1"
                 TickFrequency="1"
-                Value="50"
-                Maximum="100"
+                Value="100"
+                Maximum="200"
             />
             <Button
                 Grid.Row="17"

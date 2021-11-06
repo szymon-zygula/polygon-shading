@@ -30,7 +30,7 @@ namespace polygon_editor {
             ControlState = new DoingNothingControlState(this);
             LightShape = new LightIcon(
                 CanvasOptions.DEFAULT_LIGHT_COLOR,
-                100, 100,
+                400, 400,
                 CanvasOptions.LIGHT_ICON_RAYS,
                 CanvasOptions.LIGHT_ICON_RADIUS
             );
@@ -40,7 +40,7 @@ namespace polygon_editor {
 
             Plane.Fill(CanvasOptions.BACKGROUND_COLOR);
             Canvas.Source = Plane.CreateBitmapSource();
-            LightHeight = 50;
+            LightHeight = 100;
         }
 
         public (int?, Polygon) FindAnyEdgeWithinMouse(double mouseX, double mouseY) {
