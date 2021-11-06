@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace polygon_editor {
     public static class CanvasOptions {
-        public static readonly UInt32 BACKGROUND_COLOR = 0xFFF8F8F8;
+        public static readonly UInt32 BACKGROUND_COLOR = 0xFFC8C8C8;
         public static readonly UInt32 ACTIVE_EDGE_COLOR = 0xFF0000FF;
         public static readonly UInt32 ACTIVE_CENTER_COLOR = 0xFFFF00FF;
         public static readonly UInt32 ADDING_CONSTRAINT_MARKER_COLOR = 0xFFFF0000;
