@@ -23,7 +23,7 @@ namespace polygon_editor {
             return convertedColor;
         }
 
-        public static Bitmap GetBitmapFromDialog() {
+        public static Texture GetTextureFromDialog() {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Open image";
             dlg.Filter = "Image files (*.bmp, *.png, *.tga, *.jpg)|*.bmp;*.png;*.tga;*.jpg";
@@ -31,7 +31,7 @@ namespace polygon_editor {
                 return null;
             }
 
-            return new Bitmap(dlg.FileName);
+            return new Texture(new Bitmap(dlg.FileName));
         }
     }
 }

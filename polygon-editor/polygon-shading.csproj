@@ -86,6 +86,7 @@
     <Compile Include="ScanLineFiller.cs" />
     <Compile Include="Shapes\LightIcon.cs" />
     <Compile Include="Shapes\Shape.cs" />
+    <Compile Include="Texture.cs" />
     <Compile Include="Vec.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

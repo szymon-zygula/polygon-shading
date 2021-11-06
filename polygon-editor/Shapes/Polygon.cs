@@ -12,8 +12,8 @@ namespace polygon_editor {
         public double SpecularComponent;
         public double SpecularExponent;
 
-        public Bitmap Texture;
-        public Bitmap HeightMap;
+        public Texture Texture;
+        public Texture HeightMap;
 
         public enum FillType {
             None,

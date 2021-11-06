@@ -200,12 +200,12 @@ namespace polygon_editor{
         }
 
         private void ButtonPolygonHeightMap_Click(object sender, RoutedEventArgs e) {
-            ActivePolygon.HeightMap = InterfaceUtils.GetBitmapFromDialog();
+            ActivePolygon.HeightMap = InterfaceUtils.GetTextureFromDialog();
             State.UpdateCanvas();
         }
 
         private void ButtonPolygonTexture_Click(object sender, RoutedEventArgs e) {
-            ActivePolygon.Texture = InterfaceUtils.GetBitmapFromDialog();
+            ActivePolygon.Texture = InterfaceUtils.GetTextureFromDialog();
             State.UpdateCanvas();
         }
 
