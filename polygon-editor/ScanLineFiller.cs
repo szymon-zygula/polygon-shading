@@ -138,8 +138,8 @@ namespace polygon_editor {
             Vec3 R = 2 * Vec3.DotProduct(N, L) * N - L;
 
             // Strange bug - if lp.m is an integer reflection becomes buggy
-            double specular = lp.ks * Math.Pow(Vec3.AngleCosine(V, R), lp.m + 0.0001);
-            double diffuse = lp.kd * Vec3.AngleCosine(N, L);
+            double specular = lp.ks * Math.Pow(Math.Max(Vec3.AngleCosine(V, R), 0.0), lp.m + 0.0001);
+            double diffuse = lp.kd * Math.Max(Vec3.AngleCosine(N, L), 0.0);
             double multiplier = diffuse + specular;
             Vec3 color = new Vec3(lp.IL.X * IO.X, lp.IL.Y * IO.Y, lp.IL.Z * IO.Z) * multiplier;
             return color.ToColor();
